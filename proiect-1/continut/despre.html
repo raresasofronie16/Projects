@@ -1,0 +1,129 @@
+
+<main>
+
+<h1>Highlights EDM 2023 DJ MAG</h1>
+        <p><b>DJ Mag </b>este o revista lunara dedicata muzicii electronice si DJ-ilor.</p>
+        <p>Unul dintre marcile cele mai iubite ale muzicii electronice a inceput in 1991, ca o revista tiparita pentru a reflecta scena emergentă a muzicii electronice din Marea Britanie, 
+            este acum un brand multimedia global cu active care se întind prin tipărire, web, video și evenimente, cu o acoperire lunară globală de 96 de milioane. </p>
+        <p>DJ Mag este tradus în zece limbi în fiecare lună și a fost premiat cu „Cea mai bună revistă muzicală” la International Dance Music Awards de 17 ori un record.
+    În calitate de proprietari ai sondajelor influente Top 100 DJ și Top 100 Clubs, DJ Mag este citit și respectat în întreaga lume. Peste 1,3 milioane de oameni votează în Top 100 DJ, în timp ce 600.000 votează în Top 100 Clubs. </p>
+       
+        <p>In fiecare an, oamenii isi pot sustine DJs si festivalurile preferate printr-un vot pe site-ul oficial al DJ Mag: <a href="https://djmag.com/" >https://djmag.com/ </a>.</p>
+        
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXCUGngadEZjLggraJ19NBDww2YI_dLvGATzwY_t_-LQ&s" width = "200" height = "200" alt=""> 
+
+
+
+        <p><b><i>Top 10 festivaluri</i></b> alese prin vot din 2023:</p>
+        <table class="styled-table">
+            <tr>
+                <th>1</th>
+                <th>Tomorrowland, Belgium</th>
+            </tr>    
+            <tr>
+                <th>2</th>
+                <th>Ultra Music Festival, USA</th>
+            </tr>
+            <tr>
+                <th>3</th>
+                <th>Glastonbury Festival of Contemporart Performing Arts, UK</th>
+            </tr>
+            <tr>
+                <th>4</th>
+                <th>EDC Las Vegas, USA</th>
+            </tr> 
+            <tr>
+                <th>5</th>
+                <th>Coachella Valley Music and Arts Festival, USA</th>
+            </tr>
+            <tr>
+                <th>6</th>
+                <th>Untold Festival, Romania</th>
+            </tr> 
+            <tr>
+                <th>7</th>
+                <th>Awakenings, Netherlands</th>
+            </tr>
+            <tr>
+                <th>8</th>
+                <th>Creamfields North, UK</th>
+            </tr> 
+            <tr>
+                <th>9</th>
+                <th>Exit Festival, Serbia</th>
+            </tr> 
+            <tr>
+                <th>10</th>
+                <th>World Club Dome, Germany</th>
+            </tr>  
+        </table>
+
+        <p><b>Observatie: </b>Pentru a putea vizualiza clasamentul integral, puteti intra pe acest link: 
+            <a href = "https://djmag.com/features/top-100-festivals-2023-voted-dj-mag-readers">link</a>
+        </p>
+      
+        <p>Un exemplu de formular pentru a vota unul din festivalurile favorite este urmatorul:</p>
+        <form id="myForm">
+        
+        <label for="nume">Nume:</label>
+        <input type="text" id="nume" name="nume" placeholder="Introdu numele">
+        <br>
+        <label for="prenume">Prenume:</label>
+        <input type="text" id="prenume" name="prenume" placeholder="Introdu prenumele">
+        <br>
+        <label for="nume">Parola:</label>
+        <input type="password" id="parola" name="parola" placeholder="Introdu parola">
+        <br>
+        <label for="nume">Festival preferat:</label>
+        <select id="culoare" name="culoare">
+            <option value="Tomorrowland">Tomorrowland</option>
+            <option value="Ultra Music Festival">Ultra Music Festival</option>
+            <option value="Glastonbury Festival of Contemporart Performing Arts">Glastonbury Festival of Contemporart Performing Arts</option>
+            <option value="EDC Las Vegas">EDC Las Vegas</option>
+            <option value="Coachella Valley Music and Arts Festival">Coachella Valley Music and Arts Festival</option>
+            <option value="Untold Festival">Untold Festival</option>
+            <option value="Awakenings">Awakenings</option>
+            <option value="Creamfields North">Creamfields North</option>
+            <option value="Exit Festival">Exit Festival</option>
+            <option value="World Club Dome">World Club Dome</option>
+        </select>
+       
+       <br>
+        <input type="checkbox" id="accepta" name="accepta">
+        <label for="accepta">Sunt de acord cu conditiile:</label>   
+    </form>
+
+    <button onclick="inregistreaza()">Înregistrează-ți răspunsul</button>
+    <div id="rezultat"></div>
+
+    <script>
+        function inregistreaza()
+        {
+            if (document.getElementById('nume').value && document.getElementById('prenume').value && document.getElementById('parola').value && document.getElementById('culoare').value && document.getElementById('accepta').checked)
+            {
+                document.getElementById('rezultat').innerText = "Înregistrarea a avut loc cu succes!";
+
+            }
+            else
+            {
+                document.getElementById('rezultat').innerText = "Completează toate câmpurile și acceptă condițiile de mai sus pentru a putea efectua înregistrarea.";
+            }
+        }
+    </script>
+
+
+    <p><b>Festivaluri cunoscute din Romania:</b></p>
+    <ol>
+        <li>Untold Festival</li>
+        <li>Electric Castle</li>
+        <li>Neversea</li>
+        <li>Saga Festival</li>
+        <li>Beach, Please!</li>
+
+    </ol>
+
+    <p>Festivalul de renume din Romania a ramas <b>Untold</b> care a strans peste 420.000 de participanti si 250 de artisti in 2023 la cea de-a opta editie. Organizatorii estimeaza ca, din totalul participantilor, peste 25% sunt oameni veniti din strainatate, cu o crestere de 10% fata de anii precedenti.</p> 
+    <iframe src="https://untold.com/memories" style="border: none; margin: 0; padding: 0; height: 400px; width: 600px; overflow: auto;" name="myiFrame" allowfullscreen></iframe>
+    
+
+</main>

@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de cumpărături</title>
+    <link rel="stylesheet" href="css/stil.css">
+</head>
+<body>
+    <h1>Lista de cumpărături</h1>
+    <div>
+        <input type="text" id="nume" placeholder="Nume produs">
+        <input type="text" id="cantitate" placeholder="Cantitate">
+        <button id="adauga">Adaugă</button>
+        <button id="localStorageButton">LocalStorage</button>
+        <button id="indexedDBButton">IndexedDB</button>
+    </div>
+    <table id="tabelProduse">
+        <thead>
+            <tr>
+                <th>Nr.</th>
+                <th>Nume</th>
+                <th>Cantitate</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyProduse">
+            
+        </tbody>
+    </table>
+
+    <script src="js/cumparaturi.js"></script>
+</body>
+</html>

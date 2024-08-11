@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persoane>
+    <persoana id="1">
+        <nume>Popescu</nume>
+        <prenume>Ion</prenume>
+        <varsta>23</varsta>
+        <adresa>
+            <strada>Amurgului</strada>
+            <numar>9</numar>
+            <localitate>Iasi</localitate>
+            <judet>Iasi</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <numar_de_telefon>0740123452</numar_de_telefon>
+        <ocupatie>student</ocupatie>
+        <email>ion.popescu7@yahoo.com</email>
+    </persoana>
+
+
+    <persoana id="2">
+        <nume>Stan</nume>
+        <prenume>Alex</prenume>
+        <varsta>25</varsta>
+        <adresa>
+            <strada>Prieteniei</strada>
+            <numar>2</numar>
+            <localitate>Dorohoi</localitate>
+            <judet>Botosani</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <numar_de_telefon>0770324789</numar_de_telefon>
+        <ocupatie>liber profesionist</ocupatie>
+        <email>alexstan5@yahoo.com</email>
+    </persoana>
+
+
+
+    <persoana id="3">
+        <nume>Rusu</nume>
+        <prenume>Andrei</prenume>
+        <varsta>24</varsta>
+        <adresa>
+            <strada>Geniului</strada>
+            <numar>6</numar>
+            <localitate>Botosani</localitate>
+            <judet>Botosani</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <numar_de_telefon>0740437818</numar_de_telefon>
+        <ocupatie>inginer</ocupatie>
+        <email>andreirus@yahoo.com</email>
+    </persoana>
+
+     <persoana id="4">
+        <nume>Popovici</nume>
+        <prenume>Ciprian</prenume>
+        <varsta>21</varsta>
+        <adresa>
+            <strada>Plevna</strada>
+            <numar>10</numar>
+            <localitate>Suceava</localitate>
+            <judet>Suceava</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <numar_de_telefon>0770321789</numar_de_telefon>
+        <ocupatie>student</ocupatie>
+        <email>cipripopo@yahoo.com</email>
+    </persoana>
+
+ <persoana id="5">
+        <nume>Boboc</nume>
+        <prenume>Ionuț</prenume>
+        <varsta>22</varsta>
+        <adresa>
+            <strada>Comisarului</strada>
+            <numar>4</numar>
+            <localitate>Iași</localitate>
+            <judet>Iași</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <numar_de_telefon>0749324789</numar_de_telefon>
+        <ocupatie>instalator</ocupatie>
+        <email>ionutboboc@yahoo.com</email>
+    </persoana>
+
+ <persoana id="6">
+        <nume>Georgian</nume>
+        <prenume>Zaharia</prenume>
+        <varsta>21</varsta>
+        <adresa>
+            <strada>Prieteniei</strada>
+            <numar>8</numar>
+            <localitate>Huși</localitate>
+            <judet>Vaslui</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <numar_de_telefon>0740324732</numar_de_telefon>
+        <ocupatie>programator</ocupatie>
+        <email>geozaha@yahoo.com</email>
+    </persoana>
+
+
+    
+
+
+</persoane>
