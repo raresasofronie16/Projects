@@ -1,0 +1,23 @@
+Vivado Simulator v2024.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: E:/AMD/Vivado/2024.1/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot am2910_tb_behav xil_defaultlib.am2910_tb xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.instruction
+Compiling module xil_defaultlib.incremeter
+Compiling module xil_defaultlib.microprog_register
+Compiling module xil_defaultlib.stackPointer
+Compiling module xil_defaultlib.stack
+Compiling module xil_defaultlib.reg_cnt
+Compiling module xil_defaultlib.zero_detector
+Compiling module xil_defaultlib.mux
+Compiling module xil_defaultlib.am2910
+Compiling module xil_defaultlib.am2910_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot am2910_tb_behav

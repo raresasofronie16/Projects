@@ -1,0 +1,305 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 07/24/2024 01:49:10 PM
+// Design Name: 
+// Module Name: AM2910_design
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module stack_pointer(clk, push, pop, hold, clear, full, sp);
+    input clk, push, pop, hold, clear;
+    output reg full;
+    output reg [3:0] sp;
+    
+    always @(posedge clk)
+    begin
+        if(clear)
+        begin
+            sp <= 4'b0;
+            full <= 1'b1;
+        end
+        else if(hold)
+        begin
+            if(sp == 9)
+                full <= 1'b0;
+        end
+        else if(push)
+        begin
+            if(sp < 9)
+            begin
+                sp <= sp + 1;
+                if(sp == 8)
+                    full <= 1'b0;
+            end
+        end
+        
+        else if(pop)
+        begin
+            if(sp > 0)
+            begin
+                sp <= sp - 1;
+                full <= 1'b1;
+            end
+        end
+               
+    end
+
+endmodule
+
+
+module stack(clk, push, pop, hold, clear, dout, din, sp);
+    input [11:0] din;
+    input clk, push, pop, hold, clear;
+    output reg [11:0] dout;
+//    output reg [3:0] sp;
+    input [3:0] sp;
+    
+    reg [11:0] mem_stack [0:8];
+    integer i;
+    
+    always @(posedge clk)
+    begin
+        if(clear)
+        begin
+            for(i=0;i<9;i=i+1)
+            begin
+                mem_stack[i] = 12'b0;
+            end
+        end
+        else if(push)
+        begin
+            mem_stack[sp] <= din;
+        end
+        else if(pop && sp > 0)
+        begin
+            mem_stack[sp] <= 12'b0;
+            dout <= mem_stack[sp];
+        end
+        
+        
+    end
+
+endmodule
+
+module incrementer(din, dout, CI);
+    input [11:0] din;
+    input CI;
+    output [11:0] dout;
+    assign dout = CI ? (din + 1) : din;
+endmodule
+
+
+module microPC(clk, clear, count, din, dout);
+    input clk, clear, count;
+    input [11:0] din;
+    output reg [11:0] dout;
+
+    always@(posedge clk)
+        if(clear)
+            dout <= 12'b0;
+        else if(count)
+            dout <= din;
+
+endmodule
+
+module zero_detector(din, dout);
+    input [11:0] din;
+    output wire dout;
+    assign dout = ~(|din); 
+         
+endmodule
+
+
+module reg_cnt(clk, din, dout, dec, hold, load, RLD);
+    input clk, dec, hold, load, RLD;
+    input [11:0] din;
+    output wire [11:0] dout;
+    reg [11:0] cnt, cnt_next;
+    
+    always @(posedge clk)
+        cnt <= cnt_next;
+        
+    assign dout = cnt;
+    
+    always @(din or RLD or dec or load or hold or cnt)
+    begin
+        casex({RLD, dec, hold, load})
+            4'b0100 : cnt_next = cnt - 1;
+            4'b0x01 : cnt_next = din;
+            4'b0x1x : cnt_next = cnt; 
+            default: cnt_next = cnt;
+        endcase    
+    end
+    
+endmodule
+
+module MUX(D, R, F, mPC, sel, y);
+    input [11:0] D, R, F, mPC;
+    input [2:0] sel;
+    output reg [11:0] y;
+    
+    always @(D or R or F or mPC or sel)
+    casex(sel)
+        3'b000 : y = D;
+        3'b001 : y = R;
+        3'b010 : y = F;
+        3'b011 : y = mPC;
+        3'b1xx : y = 12'b0;
+          
+    endcase
+
+endmodule
+
+
+module instruction_pla(i30, CCn, zero, dec, hold, load,
+push_s, pop_s, hold_s, clear_s, clear_m, count_m,
+pl, map, vect, sel);
+    input [3:0] i30;
+    input CCn;
+    input zero;
+    
+    output  dec, hold, load;
+    output  push_s, pop_s, hold_s,clear_s;
+    output  clear_m, count_m;
+    output  pl, map, vect;
+    output  [2:0] sel;
+    
+    reg [13:0] signals;
+
+    assign {dec, hold, load, push_s, pop_s, hold_s, clear_s, clear_m, count_m, pl, map, vect} = signals;
+
+    always @(i30 or CCn or zero)
+    begin
+        casex({i30, CCn, zero})
+            6'b0000_0_x : signals = 15'b0_1_0_0_0_0_1_1_0_1_0_0_100;
+            6'b0000_1_x : signals = 15'b0_1_0_0_0_0_1_1_0_1_0_0_100;
+            6'b0001_0_x : signals = 15'b0_1_0_1_0_0_0_0_1_1_0_0_000;
+            6'b0001_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_011;
+            6'b0010_0_x : signals = 15'b0_1_0_0_0_1_0_0_1_0_1_0_000;
+            6'b0010_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_0_1_0_000;
+            6'b0011_0_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_000;
+            6'b0011_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_0_1_0_011;
+            6'b0100_0_x : signals = 15'b0_0_1_1_0_0_0_0_1_1_0_0_011;
+            6'b0100_1_x : signals = 15'b0_1_0_1_0_0_0_0_1_1_0_0_011;
+            6'b0101_0_x : signals = 15'b0_1_0_1_0_0_0_0_1_1_0_0_000;
+            6'b0101_1_x : signals = 15'b0_1_0_1_0_0_0_0_1_1_0_0_001;
+            6'b0110_0_x : signals = 15'b0_1_0_0_0_1_0_0_1_0_0_1_000;
+            6'b0110_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_0_0_1_011;
+            6'b0111_0_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_000;
+            6'b0111_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_001;
+            
+            6'b1000_0_0 : signals = 15'b0_1_0_0_0_1_0_0_1_0_0_1_010;
+            6'b1000_0_1 : signals = 15'b0_1_0_0_0_1_0_0_1_0_0_1_011;
+            6'b1000_1_0 : signals = 15'b0_1_0_0_0_1_0_0_1_0_0_1_010;
+            6'b1000_1_1 : signals = 15'b0_1_0_0_0_1_0_0_1_0_0_1_011;
+            
+            6'b1001_0_0 : signals = 15'b1_0_0_0_0_1_0_0_1_1_0_0_000;
+            6'b1001_0_1 : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_011;
+            6'b1001_1_0 : signals = 15'b1_0_0_0_0_1_0_0_1_1_0_0_010;
+            6'b1001_1_1 : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_011;
+            
+            6'b1010_0_x : signals = 15'b0_1_0_0_1_0_0_0_1_1_0_0_010;
+            6'b1010_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_011;
+            6'b1011_0_x : signals = 15'b0_1_0_0_1_0_0_0_1_1_0_0_000;
+            6'b1011_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_011;
+            6'b1100_0_x : signals = 15'b0_0_1_0_0_1_0_0_1_1_0_0_011;
+            6'b1100_1_x : signals = 15'b0_1_1_0_0_1_0_0_1_1_0_0_011;
+            6'b1101_0_x : signals = 15'b0_1_0_0_1_0_0_0_1_1_0_0_011;
+            6'b1101_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_010;
+            6'b1110_0_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_011;
+            6'b1110_1_x : signals = 15'b0_1_0_0_0_1_0_0_1_1_0_0_011;
+            
+            6'b1111_0_0 : signals = 15'b1_1_0_0_1_0_0_0_1_1_0_0_011;
+            6'b1111_0_1 : signals = 15'b0_1_0_0_1_0_0_0_1_1_0_0_011;
+            6'b1111_1_0 : signals = 15'b1_0_0_0_0_1_0_0_1_1_0_0_010;
+            6'b1111_1_1 : signals = 15'b0_1_0_0_1_0_0_0_1_1_0_0_000;
+            
+  
+          
+    
+        endcase
+      
+    
+   
+
+    end
+
+endmodule
+
+module AM2910_design(di, clk, RLD, CI, CCn, i30,
+OE, pl, map, vect, full, y );
+    input clk, RLD, CI, CCn, OE;
+    input [11:0] di;
+    input [3:0] i30;
+    output wire full, pl, map, vect;
+    output reg [11:0] y;
+    
+//    dec, hold, load, push_s, pop_s, hold_s, clear_s, clear_m, count_m, pl, map, vect
+    wire dec, hold, load;
+    wire push_s, pop_s, hold_s, clear_s;
+    wire clear_m, count_m; 
+    wire [2:0] sel;
+    wire zero;
+    wire [3:0] sp;
+    wire [11:0] data_out;
+    
+    wire [11:0] DO_REG_CNT;   
+    wire [11:0] DO_STACK;
+    wire [11:0] DO_mPC;    
+    wire [11:0] DO_INCREMENTER;
+ 
+       
+//module stack_pointer(clk, push, pop, hold, clear, full, sp);
+// module stack(clk, push, pop, hold, clear, dout, din, sp);
+//module incrementer(din, dout, CI);
+//module microPC(clk, clear, count, din, dout);
+//module zero_detector(din, dout);
+//module reg_cnt(clk, din, dout, dec, hold, load, RLD);
+//module MUX(D, R, F, mPC, sel, y);
+//module instruction_pla(i30, CCn, zero, dec, hold, load,
+//push_s, pop_s, hold_s, clear_s, clear_m, count_m,
+//pl, map, vect, sel);
+
+instruction_pla INSTRUCTION_PLA(i30, CCn, zero, dec, hold, 
+load,push_s, pop_s, hold_s, clear_s, clear_m, count_m,
+pl, map, vect, sel ); 
+
+incrementer INCREMENTER(data_out, DO_INCREMENTER, CI);
+
+microPC MICROPROGRAM_COUNTER(clk, clear_m, count_m,
+DO_INCREMENTER, DO_mPC);
+
+stack_pointer STACK_POINTER(clk, push_s, pop_s, hold_s, clear_s,
+full, sp);
+
+stack stack_9x12(clk,push_s, pop_s, hold_s, clear_s,
+DO_mPC, DO_STACK, sp);
+
+reg_cnt REG_CNT(clk, di, DO_REG_CNT, dec, hold, 
+load, RLD);
+
+zero_detector ZERO_DETECTOR(DO_REG_CNT, zero);
+
+MUX MULTIPLEXOR(di, DO_REG_CNT, DO_STACK, DO_mPC, 
+sel, data_out );
+
+
+    always @(posedge clk)
+    begin
+        y = (OE) ? data_out : 12'bz;
+    end
+endmodule
